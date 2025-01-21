@@ -72,23 +72,25 @@ function App() {
         Descubra o que o Mario esta falando para a Peach!
       </h1>
       <div className="w-[650px] flex gap-4 flex-wrap bg-blue-600 justify-center p-4 rounded-md">
-        {cards.map((item, index) => (
-          <button
-            key={index}
-            onClick={() => handleSelectCard(index)}
-            className={clsx(
-              item.status !== "hidden" &&
-                "p-1 rounded-xl bg-neutral-200 cursor-default"
-            )}
-          >
-            <img
-              src={
-                item.status === "hidden" ? "question.png" : `${item.type}.png`
-              }
-              width={item.status === "hidden" ? 88 : 80}
-            />
-          </button>
-        ))}
+        {cards.map((item, index) => {
+          if (item.status === "hidden") {
+            return (
+              <button key={index} onClick={() => handleSelectCard(index)}>
+                <img src="question.png" width={88} />
+              </button>
+            );
+          }
+
+          return (
+            <button
+              key={index}
+              onClick={() => handleSelectCard(index)}
+              className="p-1 rounded-xl bg-neutral-200 cursor-default"
+            >
+              <img src={`${item.type}.png`} width={80} />
+            </button>
+          );
+        })}
       </div>
     </div>
   );
