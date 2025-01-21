@@ -112,6 +112,10 @@ section {
 body {
   line-height: 1;
   background-color: #fecaca;
+  background-image: url("/peachs-castle.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 ol,
 ul {

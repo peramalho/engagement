@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const MAX_HEALTH_POINTS = 5;
+
 type Card = {
   type: string;
   status: "hidden" | "selected" | "completed";
@@ -12,8 +14,7 @@ const itemTypes = [
   "flower-fire",
   "goomba",
   "paper-bowser",
-  // "paper-mario",
-  // "question",
+  "paper-mario",
   "shyguy",
   "star",
   "super-mushroom-2",
@@ -42,17 +43,18 @@ const generateInitialCards = (itemTypes: string[]): Card[] => {
 
 function App() {
   const [cards, setCards] = useState(generateInitialCards(itemTypes));
+  const [healthPoints, setHealthPoints] = useState(MAX_HEALTH_POINTS);
 
   return (
-    <div className="flex items-center flex-col p-12">
-      <h1 className="text-4xl mb-12">
+    <div className="flex items-center flex-col p-8">
+      <h1 className="text-4xl mb-4 bg-blue-200 p-4 rounded-md">
         Descubra o que o Mario está falando para a Peach!
       </h1>
-      <div className="w-[600px] flex gap-4 flex-wrap">
+      <div className="w-[710px] flex gap-4 flex-wrap bg-blue-300 justify-center p-4 rounded-md">
         {cards.map((item, index) => (
-          <div key={index} className="bg-neutral-300 p-1 cursor-pointer">
+          <button key={index} className="bg-neutral-200 rounded-xl p-1">
             <img src={`/${item.type}.png`} width={80} />
-          </div>
+          </button>
         ))}
       </div>
       <img src="question.png" width={88} />
