@@ -12,8 +12,8 @@ const itemTypes = [
   "flower-fire",
   "goomba",
   "paper-bowser",
-  "paper-mario",
-  "question",
+  // "paper-mario",
+  // "question",
   "shyguy",
   "star",
   "super-mushroom-2",
@@ -44,14 +44,18 @@ function App() {
   const [cards, setCards] = useState(generateInitialCards(itemTypes));
 
   return (
-    <div className="flex justify-center">
-      <div className="w-[800px] flex gap-4 flex-wrap">
+    <div className="flex items-center flex-col p-12">
+      <h1 className="text-4xl mb-12">
+        Descubra o que o Mario está falando para a Peach!
+      </h1>
+      <div className="w-[600px] flex gap-4 flex-wrap">
         {cards.map((item, index) => (
-          <div key={index} className="bg-neutral-300">
-            <img src={`/${item.type}.png`} width={60} />
+          <div key={index} className="bg-neutral-300 p-1 cursor-pointer">
+            <img src={`/${item.type}.png`} width={80} />
           </div>
         ))}
       </div>
+      <img src="question.png" width={88} />
     </div>
   );
 }
