@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useState } from "react";
 
 const MAX_HEALTH_POINTS = 5;
@@ -47,17 +48,26 @@ function App() {
 
   return (
     <div className="flex items-center flex-col p-8">
-      <h1 className="text-4xl mb-4 bg-blue-200 p-4 rounded-md">
-        Descubra o que o Mario está falando para a Peach!
+      <h1 className="text-4xl mb-4 text-white bg-blue-600 p-4 rounded-md">
+        Descubra o que o Mario esta falando para a Peach!
       </h1>
-      <div className="w-[650px] flex gap-4 flex-wrap bg-blue-300 justify-center p-4 rounded-md">
+      <div className="w-[650px] flex gap-4 flex-wrap bg-blue-600 justify-center p-4 rounded-md">
         {cards.map((item, index) => (
-          <button key={index} className="bg-neutral-200 rounded-xl p-1">
-            <img src={`/${item.type}.png`} width={80} />
+          <button
+            key={index}
+            className={clsx(
+              item.status !== "hidden" && "p-1 rounded-xl bg-neutral-200"
+            )}
+          >
+            <img
+              src={
+                item.status === "hidden" ? "question.png" : `${item.type}.png`
+              }
+              width={item.status === "hidden" ? 88 : 80}
+            />
           </button>
         ))}
       </div>
-      <img src="question.png" width={88} />
     </div>
   );
 }
