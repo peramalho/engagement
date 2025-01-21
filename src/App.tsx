@@ -45,6 +45,26 @@ const generateInitialCards = (itemTypes: string[]): Card[] => {
 function App() {
   const [cards, setCards] = useState(generateInitialCards(itemTypes));
   const [healthPoints, setHealthPoints] = useState(MAX_HEALTH_POINTS);
+  const [firstCardSelected, setFirstCardSelected] = useState<
+    undefined | number
+  >(undefined);
+
+  const handleSelectCard = (index: number) => {
+    const selectedCard = cards[index];
+
+    // Do nothing if card is revealed
+    if (selectedCard.status !== "hidden") {
+      return;
+    }
+
+    const newSelectedCard: Card = { ...selectedCard, status: "selected" };
+    const newCards: Card[] = [
+      ...cards.slice(0, index),
+      newSelectedCard,
+      ...cards.slice(index + 1),
+    ];
+    setCards(newCards);
+  };
 
   return (
     <div className="flex items-center flex-col p-8">
@@ -55,8 +75,10 @@ function App() {
         {cards.map((item, index) => (
           <button
             key={index}
+            onClick={() => handleSelectCard(index)}
             className={clsx(
-              item.status !== "hidden" && "p-1 rounded-xl bg-neutral-200"
+              item.status !== "hidden" &&
+                "p-1 rounded-xl bg-neutral-200 cursor-default"
             )}
           >
             <img
