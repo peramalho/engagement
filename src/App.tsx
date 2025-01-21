@@ -50,7 +50,7 @@ function App() {
       <h1 className="text-4xl mb-4 bg-blue-200 p-4 rounded-md">
         Descubra o que o Mario está falando para a Peach!
       </h1>
-      <div className="w-[710px] flex gap-4 flex-wrap bg-blue-300 justify-center p-4 rounded-md">
+      <div className="w-[650px] flex gap-4 flex-wrap bg-blue-300 justify-center p-4 rounded-md">
         {cards.map((item, index) => (
           <button key={index} className="bg-neutral-200 rounded-xl p-1">
             <img src={`/${item.type}.png`} width={80} />
