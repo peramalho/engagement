@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import { useState } from "react";
 
+const MARIO_ACTOR = "Pedro";
+const PEACH_ACTOR = "Raiany";
 const MAX_HEALTH_POINTS = 5;
 
 type Card = {
