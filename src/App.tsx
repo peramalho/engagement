@@ -5,9 +5,12 @@ const MARIO_ACTOR = "Pedro";
 const PEACH_ACTOR = "Raiany";
 const MAX_HEALTH_POINTS = 5;
 
+type CardStatus = "hidden" | "selected" | "completed";
+
 type Card = {
+  id: string;
   type: string;
-  status: "hidden" | "selected" | "completed";
+  status: CardStatus;
 };
 
 const itemTypes = [
@@ -37,8 +40,11 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 const generateInitialCards = (itemTypes: string[]): Card[] => {
   // Each item type is duplicated so they can match each other
   const cards: Card[] = itemTypes.reduce((acc, item) => {
-    const newItem: Card = { type: item, status: "hidden" };
-    return [...acc, newItem, newItem];
+    return [
+      ...acc,
+      { id: `${item}-1`, type: item, status: "hidden" },
+      { id: `${item}-2`, type: item, status: "hidden" },
+    ];
   }, [] as Card[]);
 
   return shuffleArray(cards);
@@ -47,31 +53,63 @@ const generateInitialCards = (itemTypes: string[]): Card[] => {
 function App() {
   const [cards, setCards] = useState(generateInitialCards(itemTypes));
   const [healthPoints, setHealthPoints] = useState(MAX_HEALTH_POINTS);
-  const [firstCardSelected, setFirstCardSelected] = useState<
-    undefined | number
-  >(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGameEnded, setIsGameEnded] = useState(false);
 
-  const handleSelectCard = (index: number) => {
-    const selectedCard = cards[index];
+  const handleSelectCard = (selectedIndex: number) => {
+    const selectedCard = cards[selectedIndex];
 
     // Do nothing if card is revealed
     if (selectedCard.status !== "hidden") {
       return;
     }
 
-    const newSelectedCard: Card = { ...selectedCard, status: "selected" };
-    const newCards: Card[] = [
-      ...cards.slice(0, index),
-      newSelectedCard,
-      ...cards.slice(index + 1),
-    ];
+    const newCards: Card[] = cards.map((item, index) => {
+      if (selectedIndex === index) {
+        return { ...item, status: "selected" };
+      }
+      return item;
+    });
     setCards(newCards);
+
+    const selectedCards = newCards.filter((item) => item.status === "selected");
+    const isSecondGuess = selectedCards.length === 2;
+    const isMatched = selectedCards[0]?.type === selectedCards[1]?.type;
+
+    if (isSecondGuess) {
+      setIsLoading(true);
+      setTimeout(() => {
+        if (isMatched) {
+          const completedCards = resolveSelectedCards(newCards, "completed");
+          setCards(completedCards);
+          if (completedCards.every((item) => item.status === "completed")) {
+            setIsGameEnded(true);
+          }
+        } else {
+          const cleanedCards = resolveSelectedCards(newCards, "hidden");
+          setCards(cleanedCards);
+        }
+        setIsLoading(false);
+      }, 500);
+    }
+  };
+
+  const resolveSelectedCards = (cards: Card[], status: CardStatus) => {
+    const resolvedCards: Card[] = cards.map((item) => {
+      if (item.status === "selected") {
+        return { ...item, status };
+      }
+      return item;
+    });
+    return resolvedCards;
   };
 
   return (
     <div className="flex items-center flex-col p-8">
       <h1 className="text-4xl mb-4 text-white bg-blue-600 p-4 rounded-md">
-        Descubra o que o Mario esta dizendo para a Peach!
+        {isGameEnded
+          ? `Descubra o que o ${MARIO_ACTOR} esta pedindo para a ${PEACH_ACTOR}!`
+          : "Descubra o que o Mario esta dizendo para a Peach!"}
       </h1>
       <div className="w-[650px] flex gap-4 flex-wrap bg-blue-600 justify-center p-4 rounded-md">
         {cards.map((item, index) => {
@@ -80,7 +118,11 @@ function App() {
               <button
                 key={index}
                 onClick={() => handleSelectCard(index)}
-                className="select-none hover:opacity-85"
+                disabled={isLoading}
+                className={clsx(
+                  "select-none",
+                  isLoading ? "cursor-normal" : "hover:opacity-85"
+                )}
               >
                 <img src="question.png" width={88} />
               </button>
@@ -88,13 +130,12 @@ function App() {
           }
 
           return (
-            <button
+            <div
               key={index}
-              onClick={() => handleSelectCard(index)}
-              className="p-1 rounded-xl bg-neutral-200 cursor-default select-none"
+              className="p-1 rounded-xl bg-neutral-200 select-none"
             >
               <img src={`${item.type}.png`} width={80} />
-            </button>
+            </div>
           );
         })}
       </div>
