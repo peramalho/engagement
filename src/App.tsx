@@ -3,7 +3,6 @@ import { useState } from "react";
 
 const MARIO_ACTOR = "Pedro";
 const PEACH_ACTOR = "Raiany";
-const MAX_HEALTH_POINTS = 5;
 
 type CardStatus = "hidden" | "selected" | "completed";
 
@@ -52,7 +51,6 @@ const generateInitialCards = (itemTypes: string[]): Card[] => {
 
 function App() {
   const [cards, setCards] = useState(generateInitialCards(itemTypes));
-  const [healthPoints, setHealthPoints] = useState(MAX_HEALTH_POINTS);
   const [isLoading, setIsLoading] = useState(false);
   const [isGameEnded, setIsGameEnded] = useState(false);
 
