@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const MARIO_ACTOR = "Pedro";
 const PEACH_ACTOR = "Raiany";
@@ -53,6 +53,7 @@ function App() {
   const [cards, setCards] = useState(generateInitialCards(itemTypes));
   const [isLoading, setIsLoading] = useState(false);
   const [isGameEnded, setIsGameEnded] = useState(false);
+  const [timesAnswered, setTimesAnswered] = useState(0);
 
   const handleSelectCard = (selectedIndex: number) => {
     const selectedCard = cards[selectedIndex];
@@ -101,6 +102,21 @@ function App() {
     });
     return resolvedCards;
   };
+
+  // Handler answer
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isGameEnded && (event.code === "Space" || event.code === "Enter")) {
+        event.preventDefault();
+        setTimesAnswered((state) => state + 1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isGameEnded]);
 
   return (
     <div className="flex items-center flex-col p-8">
@@ -170,7 +186,16 @@ function App() {
           </div>
           <img src="mario.png" />
         </div>
-        <div>
+        <div className="relative">
+          {isGameEnded && timesAnswered > 0 && (
+            <div className="w-72 bg-white absolute -right-32 -top-20 p-3 rounded-xl flex gap-4 flex-wrap border border-red-400">
+              <div>
+                <p className="leading-8 text-2xl">
+                  {"SIM! ".repeat(timesAnswered)}
+                </p>
+              </div>
+            </div>
+          )}
           <img src="peach.png" />
         </div>
       </div>
