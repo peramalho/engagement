@@ -147,6 +147,33 @@ function App() {
           );
         })}
       </div>
+      <div className="flex gap-[600px]">
+        <div className="relative">
+          <div className="w-72 bg-white absolute -left-32 -top-32 p-3 rounded-xl flex gap-4 flex-wrap border border-red-400">
+            {isGameEnded ? (
+              <div>
+                <p className="leading-8 text-2xl">
+                  Raiany, voce aceita se casar comigo?????{" "}
+                </p>
+                <span className="text-xs">(PS: aperta espaço)</span>
+              </div>
+            ) : (
+              <>
+                {itemTypes.map((item) => (
+                  <span className="shrink-0">
+                    <img src={`${item}.png`} width={30} />
+                  </span>
+                ))}
+                . . .
+              </>
+            )}
+          </div>
+          <img src="mario.png" />
+        </div>
+        <div>
+          <img src="peach.png" />
+        </div>
+      </div>
     </div>
   );
 }
