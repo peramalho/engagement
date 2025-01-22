@@ -132,7 +132,7 @@ function App() {
                   isLoading ? "cursor-normal" : "hover:opacity-85"
                 )}
               >
-                <img src="question.png" width={88} />
+                <img src="question-block.png" width={88} />
               </button>
             );
           }
