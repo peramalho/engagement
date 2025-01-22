@@ -75,7 +75,11 @@ function App() {
         {cards.map((item, index) => {
           if (item.status === "hidden") {
             return (
-              <button key={index} onClick={() => handleSelectCard(index)}>
+              <button
+                key={index}
+                onClick={() => handleSelectCard(index)}
+                className="select-none hover:opacity-85"
+              >
                 <img src="question.png" width={88} />
               </button>
             );
@@ -85,7 +89,7 @@ function App() {
             <button
               key={index}
               onClick={() => handleSelectCard(index)}
-              className="p-1 rounded-xl bg-neutral-200 cursor-default"
+              className="p-1 rounded-xl bg-neutral-200 cursor-default select-none"
             >
               <img src={`${item.type}.png`} width={80} />
             </button>
