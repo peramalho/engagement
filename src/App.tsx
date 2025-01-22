@@ -69,7 +69,7 @@ function App() {
   return (
     <div className="flex items-center flex-col p-8">
       <h1 className="text-4xl mb-4 text-white bg-blue-600 p-4 rounded-md">
-        Descubra o que o Mario esta falando para a Peach!
+        Descubra o que o Mario esta dizendo para a Peach!
       </h1>
       <div className="w-[650px] flex gap-4 flex-wrap bg-blue-600 justify-center p-4 rounded-md">
         {cards.map((item, index) => {
