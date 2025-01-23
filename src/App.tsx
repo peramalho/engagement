@@ -181,7 +181,7 @@ function App() {
                 <p className="leading-8 text-2xl">
                   Raiany, voce aceita se casar comigo?????{" "}
                 </p>
-                <span className="text-xs">(PS: aperta espaço)</span>
+                <span className="text-xs">(PS: aperta espaco)</span>
               </div>
             ) : (
               <>
