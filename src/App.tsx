@@ -165,7 +165,7 @@ function App() {
       </div>
       <div className="flex gap-[600px]">
         <div className="relative">
-          <div className="w-72 bg-white absolute -left-32 -top-32 p-3 rounded-xl flex gap-4 flex-wrap">
+          <div className="w-72 bg-white absolute -left-32 -top-32 p-3 rounded-xl flex gap-4 flex-wrap border-2 border-solid border-blue-400">
             {isGameEnded ? (
               <div>
                 <p className="leading-8 text-2xl">
@@ -188,7 +188,7 @@ function App() {
         </div>
         <div className="relative">
           {isGameEnded && timesAnswered > 0 && (
-            <div className="w-72 bg-white absolute -right-32 -top-20 p-3 rounded-xl flex gap-4 flex-wrap">
+            <div className="w-72 bg-white absolute -right-32 -top-20 p-3 rounded-xl flex gap-4 flex-wrap border-2 border-solid border-blue-400">
               <div>
                 <p className="leading-8 text-2xl">
                   {"SIM! ".repeat(timesAnswered)}
