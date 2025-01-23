@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import useSound from "use-sound";
 
 const MARIO_ACTOR = "Pedro";
 const PEACH_ACTOR = "Raiany";
@@ -55,6 +56,25 @@ function App() {
   const [isGameEnded, setIsGameEnded] = useState(false);
   const [timesAnswered, setTimesAnswered] = useState(0);
 
+  // Handler answer
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isGameEnded && (event.code === "Space" || event.code === "Enter")) {
+        event.preventDefault();
+        setTimesAnswered((state) => state + 1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isGameEnded]);
+
+  const [playCorrect] = useSound("correct.wav");
+  const [playWrong] = useSound("wrong.wav");
+  const [playWinner] = useSound("winner.wav");
+
   const handleSelectCard = (selectedIndex: number) => {
     const selectedCard = cards[selectedIndex];
 
@@ -83,10 +103,14 @@ function App() {
           setCards(completedCards);
           if (completedCards.every((item) => item.status === "completed")) {
             setIsGameEnded(true);
+            playWinner();
+          } else {
+            playCorrect();
           }
         } else {
           const cleanedCards = resolveSelectedCards(newCards, "hidden");
           setCards(cleanedCards);
+          playWrong();
         }
         setIsLoading(false);
       }, 500);
@@ -102,21 +126,6 @@ function App() {
     });
     return resolvedCards;
   };
-
-  // Handler answer
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (isGameEnded && (event.code === "Space" || event.code === "Enter")) {
-        event.preventDefault();
-        setTimesAnswered((state) => state + 1);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isGameEnded]);
 
   return (
     <div className="flex items-center flex-col p-8">
@@ -163,6 +172,7 @@ function App() {
           );
         })}
       </div>
+      <button onClick={() => playCoin()}>Test</button>
       <div className="flex gap-[600px]">
         <div className="relative">
           <div className="w-72 bg-white absolute -left-32 -top-32 p-3 rounded-xl flex gap-4 flex-wrap border-2 border-solid border-blue-400">
