@@ -73,7 +73,7 @@ function App() {
 
   const [playCorrect] = useSound("correct.wav");
   const [playWrong] = useSound("wrong.wav");
-  const [playWinner] = useSound("winner.wav");
+  const [playWinner] = useSound("winner.wav", { volume: 2 });
 
   const handleSelectCard = (selectedIndex: number) => {
     const selectedCard = cards[selectedIndex];
