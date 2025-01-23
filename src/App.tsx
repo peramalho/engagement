@@ -172,7 +172,6 @@ function App() {
           );
         })}
       </div>
-      <button onClick={() => playCoin()}>Test</button>
       <div className="flex gap-[600px]">
         <div className="relative">
           <div className="w-72 bg-white absolute -left-32 -top-32 p-3 rounded-xl flex gap-4 flex-wrap border-2 border-solid border-blue-400">
