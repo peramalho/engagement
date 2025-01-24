@@ -56,12 +56,18 @@ function App() {
   const [isGameEnded, setIsGameEnded] = useState(false);
   const [timesAnswered, setTimesAnswered] = useState(0);
 
+  const [playCorrect] = useSound("correct.wav");
+  const [playWrong] = useSound("wrong.wav");
+  const [playWinner] = useSound("winner.wav", { volume: 2 });
+  const [playYahoo] = useSound("yahoo.wav");
+
   // Handler answer
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (isGameEnded && (event.code === "Space" || event.code === "Enter")) {
         event.preventDefault();
         setTimesAnswered((state) => state + 1);
+        playYahoo();
       }
     };
 
@@ -69,11 +75,7 @@ function App() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isGameEnded]);
-
-  const [playCorrect] = useSound("correct.wav");
-  const [playWrong] = useSound("wrong.wav");
-  const [playWinner] = useSound("winner.wav", { volume: 2 });
+  }, [isGameEnded, playYahoo]);
 
   const handleSelectCard = (selectedIndex: number) => {
     const selectedCard = cards[selectedIndex];
